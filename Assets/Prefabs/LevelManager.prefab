@@ -45,4 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies: []
-  nextScene: 
+  bowEnemies: []
+  pipeEnemies: []
+  PlayerDied:
+    m_PersistentCalls:
+      m_Calls: []
+  LevelComplete:
+    m_PersistentCalls:
+      m_Calls: []

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
@@ -11,8 +12,8 @@ public class LevelManager : MonoBehaviour
     public List<BowEnemy> bowEnemies;
     public List<PipeEnemy> pipeEnemies;
 
-    // im lazy
-    public string nextScene;
+    public UnityEvent PlayerDied;
+    public UnityEvent LevelComplete;
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -30,12 +31,12 @@ public class LevelManager : MonoBehaviour
     {
         if (enemies.Count > 0)
         {
-            SceneManager.LoadScene("GameOver");
+            PlayerDied?.Invoke();
         }
 
         else
         {
-            SceneManager.LoadScene(nextScene);
+            LevelComplete?.Invoke();
         }
     }
 }

@@ -21,7 +21,10 @@ public class PathCreator : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy (gameObject);
     }
-
+    private void Start()
+    {
+        DisplayMoves();
+    }
     private void Update() {
         Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPosition.z = 0f;

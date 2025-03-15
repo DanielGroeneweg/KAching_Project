@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -68,6 +69,7 @@ public class Player : MonoBehaviour
             }
 
             SoundPlayer.instance.PlayDashound();
+            PlayerPrefs.SetInt("Moves", PlayerPrefs.GetInt("Moves") + 1);
             yield return StartCoroutine(MoveToNodePosition(node.Position));
             if (hit) Die();
         }
