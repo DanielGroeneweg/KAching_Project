@@ -710,7 +710,7 @@ PrefabInstance:
       objectReference: {fileID: 1763897443}
     - target: {fileID: 2636867987117988474, guid: f07cefacfa8ef3f46bcf7d98d82b453e, type: 3}
       propertyPath: maxMovementAmount
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4493293299648650267, guid: f07cefacfa8ef3f46bcf7d98d82b453e, type: 3}
       propertyPath: m_LocalPosition.x

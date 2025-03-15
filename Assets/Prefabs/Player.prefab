@@ -102,6 +102,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 60
+  spriteRenderer: {fileID: 7321149953230154985}
+  running: {fileID: 2154012782579993302, guid: 82329a4445144d54db485095efcb33d9, type: 3}
   hit: 0
 --- !u!61 &1494850016719593486
 BoxCollider2D:

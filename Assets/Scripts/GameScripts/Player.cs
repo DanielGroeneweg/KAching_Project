@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float speed;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Sprite running;
 
     [HideInInspector] public bool hit;
 
@@ -22,6 +24,8 @@ public class Player : MonoBehaviour
     }
     private void CheckBowEnemies()
     {
+        spriteRenderer.sprite = running;
+
         foreach (Enemy enemy in GameManager.instance.levelManager.enemies)
         {
             if (enemy.gameObject.TryGetComponent<BowEnemy>(out BowEnemy bowEnemy))
@@ -54,18 +58,12 @@ public class Player : MonoBehaviour
         }
 
         for (int i = 0; i < path.nodes.Count; i++) {
-
-            Debug.Log(path.nodes.Count - i);
-
             CheckBowEnemies();
-
             UpdatePipeEnemies();
 
             Node node = path.nodes[i];
 
             Vector2 pos = transform.position;
-
-            Debug.DrawRay(pos, node.Position - pos, Color.red, 100);
 
             RaycastHit2D[] hitList = Physics2D.RaycastAll(pos, node.Position - pos, Vector2.Distance(node.Position, pos));
             foreach (RaycastHit2D hitObject in hitList)
