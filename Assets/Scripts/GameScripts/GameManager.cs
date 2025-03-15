@@ -10,9 +10,4 @@ public class GameManager : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
     }
-    public void DestroyEnemy(Enemy enemyToBeDestroyed)
-    {
-        levelManager.enemies.Remove(enemyToBeDestroyed);
-        enemyToBeDestroyed.DestroyEnemy();
-    }
 }

@@ -22,19 +22,28 @@ public class Player : MonoBehaviour
     }
     private void CheckBowEnemies()
     {
-        if (GameManager.instance.levelManager.bowEnemies.Count > 0)
+        foreach (Enemy enemy in GameManager.instance.levelManager.enemies)
         {
-            foreach (BowEnemy bowEnemy in GameManager.instance.levelManager.bowEnemies)
+            if (enemy.gameObject.TryGetComponent<BowEnemy>(out BowEnemy bowEnemy))
             {
-                bowEnemy.move++;
+                if (bowEnemy != null)
+                {
+                    bowEnemy.move++;
+                }
             }
         }
     }
     private void UpdatePipeEnemies()
     {
-        foreach (PipeEnemy pipeEnemy in GameManager.instance.levelManager.pipeEnemies)
+        foreach (Enemy enemy in GameManager.instance.levelManager.enemies)
         {
-            pipeEnemy.CheckDirection();
+            if (enemy.gameObject.TryGetComponent<PipeEnemy>(out PipeEnemy pipeEnemy))
+            {
+                if (pipeEnemy != null)
+                {
+                    pipeEnemy.CheckDirection();
+                }
+            }
         }
     }
     private IEnumerator ExecutePath() {
@@ -46,7 +55,10 @@ public class Player : MonoBehaviour
 
         for (int i = 0; i < path.nodes.Count; i++) {
 
+            Debug.Log(path.nodes.Count - i);
+
             CheckBowEnemies();
+
             UpdatePipeEnemies();
 
             Node node = path.nodes[i];
@@ -67,15 +79,16 @@ public class Player : MonoBehaviour
                     }
                 }
             }
-
             SoundPlayer.instance.PlayDashound();
             PlayerPrefs.SetInt("Moves", PlayerPrefs.GetInt("Moves") + 1);
             yield return StartCoroutine(MoveToNodePosition(node.Position));
             if (hit) Die();
+            else ExecuteEnemies();
         }
 
-        ExecuteEnemies();
+        
         LevelManager.instance.ReachedEnd();
+        PathCreator.instance.ResetPath();
     }
 
     private IEnumerator MoveToNodePosition(Vector2 target) {
@@ -88,16 +101,19 @@ public class Player : MonoBehaviour
 
     private void ExecuteEnemies()
     {
-        detectedEnemies.ForEach(e =>
+        for (int i = detectedEnemies.Count - 1; i >= 0; i--)
         {
+            Enemy e = detectedEnemies[i];
             if (e.hit)
             {
                 e.HitByPlayer();
-                if (LevelManager.instance.enemies.Contains(e)) LevelManager.instance.enemies.Remove(e);
+                if (LevelManager.instance.enemies.Contains(e))
+                {
+                    LevelManager.instance.enemies.Remove(e);
+                    detectedEnemies.Remove(e);
+                }
             }
-        });
-
-        PathCreator.instance.ResetPath();
+        }
     }
 
     private void Die() {

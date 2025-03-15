@@ -13,6 +13,7 @@ public class PipeEnemy : Enemy
 
     public void CheckDirection() {
         if (player == null) return;
+        if (gameObject == null) return;
 
         if (lookDirection == Directions.Left || lookDirection == Directions.Right) {
             if (player.position.x < transform.position.x) playerDirectionToEnemy = Directions.Left;
@@ -23,7 +24,11 @@ public class PipeEnemy : Enemy
         }
     }
     public override void Detected() {
-        if (playerDirectionToEnemy == lookDirection) player.GetComponent<Player>().hit = true;
+        if (playerDirectionToEnemy == lookDirection)
+        {
+            player.GetComponent<Player>().hit = true;
+            Debug.Log("BONK");
+        }
         else hit = true;
     }
 }

@@ -9,8 +9,6 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance; 
 
     public List<Enemy> enemies;
-    public List<BowEnemy> bowEnemies;
-    public List<PipeEnemy> pipeEnemies;
 
     public UnityEvent PlayerDied;
     public UnityEvent LevelComplete;
@@ -23,8 +21,6 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None).ToList();
-        bowEnemies = FindObjectsByType<BowEnemy>(FindObjectsSortMode.None).ToList();
-        pipeEnemies = FindObjectsByType<PipeEnemy>(FindObjectsSortMode.None).ToList();
     }
 
     public void ReachedEnd()
