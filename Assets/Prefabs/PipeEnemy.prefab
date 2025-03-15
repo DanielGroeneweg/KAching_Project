@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7369827031386416875}
   - component: {fileID: 2841438568682515764}
   - component: {fileID: 4276480381354598387}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: PipeEnemy
   m_TagString: PipeEnemy
   m_Icon: {fileID: 0}

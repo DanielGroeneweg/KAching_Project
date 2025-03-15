@@ -9,12 +9,6 @@ public class PipeEnemy : Enemy
     public override void HitByPlayer()
     {
         base.HitByPlayer();
-
-        // else
-        // {
-        //     // Fucking horrible way of doing this btw
-        //     player.GetComponent<Player>().Die();
-        // }
     }
 
     public void CheckDirection() {
@@ -27,10 +21,6 @@ public class PipeEnemy : Enemy
             if (player.position.y < transform.position.y) playerDirectionToEnemy = Directions.Down;
             if (player.position.y > transform.position.y) playerDirectionToEnemy = Directions.Up;
         }
-    }
-    public void Check()
-    {
-        if (playerDirectionToEnemy == lookDirection) player.GetComponent<Player>().hit = true;
     }
     public override void Detected() {
         if (playerDirectionToEnemy == lookDirection) player.GetComponent<Player>().hit = true;

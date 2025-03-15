@@ -12,5 +12,6 @@ public class GameManager : MonoBehaviour
     public void DestroyEnemy(Enemy enemyToBeDestroyed)
     {
         levelManager.enemies.Remove(enemyToBeDestroyed);
+        enemyToBeDestroyed.DestroyEnemy();
     }
 }

@@ -50,7 +50,6 @@ public class PathCreator : MonoBehaviour
             RaycastHit2D[] hitList = Physics2D.RaycastAll(startPos, direction, distance);
             foreach (RaycastHit2D objectHit in hitList)
             {
-                Debug.Log(objectHit.collider.gameObject);
                 if (objectHit.collider != null && objectHit.collider.CompareTag("Obstacle")) return;
             }
             

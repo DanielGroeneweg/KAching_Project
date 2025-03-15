@@ -24,9 +24,8 @@ public class Enemy : MonoBehaviour
         hit = true;
     }
 
-    protected void DestroyEnemy()
+    public void DestroyEnemy()
     {
-        // increase score or sum
         Destroy(gameObject);
     }
 }
