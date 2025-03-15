@@ -10,7 +10,10 @@ public class Player : MonoBehaviour
 
     private List<Enemy> detectedEnemies = new List<Enemy>();
     private Path path;
-
+    private void Start()
+    {
+        GameManager.instance.playerRef = this;
+    }
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Space)) {
             StartCoroutine(ExecutePath());
@@ -64,6 +67,7 @@ public class Player : MonoBehaviour
                 }
             }
 
+            SoundPlayer.instance.PlayDashound();
             yield return StartCoroutine(MoveToNodePosition(node.Position));
             if (hit) Die();
         }
@@ -98,5 +102,12 @@ public class Player : MonoBehaviour
         PathCreator.instance.ResetPath();
         LevelManager.instance.ReachedEnd();
         Destroy(gameObject);
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            SoundPlayer.instance.PlayHitSound();
+        }
     }
 }

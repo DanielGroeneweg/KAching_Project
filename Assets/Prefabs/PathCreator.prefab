@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4493293299648650267}
-  - component: {fileID: 2636867987117988474}
   - component: {fileID: 4818863277752236757}
+  - component: {fileID: 2636867987117988474}
   m_Layer: 0
   m_Name: PathCreator
   m_TagString: Untagged
@@ -33,23 +33,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2636867987117988474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432986435196788988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b862fa4075e54745872574b4dc23b21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxMovementAmount: 5
-  mainCamera: {fileID: 0}
-  pathHolder: {fileID: 0}
-  nodeObj: {fileID: 5230585479277078486, guid: 8ac437b042fc5ee448cc65339c1d2195, type: 3}
-  text: {fileID: 0}
 --- !u!212 &4818863277752236757
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -93,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
@@ -105,3 +88,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2636867987117988474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432986435196788988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b862fa4075e54745872574b4dc23b21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxMovementAmount: 5
+  mainCamera: {fileID: 0}
+  pathHolder: {fileID: 0}
+  nodeObj: {fileID: 5230585479277078486, guid: 8ac437b042fc5ee448cc65339c1d2195, type: 3}
+  text: {fileID: 0}

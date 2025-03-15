@@ -29,6 +29,8 @@ public class PathCreator : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1)) {
             RemoveNode();
+            DisplayPath();
+            DisplayMoves();
         }
 
         if (nodeObjects.Count >= maxMovementAmount) return;
@@ -55,17 +57,36 @@ public class PathCreator : MonoBehaviour
             
             GameObject newNode = Instantiate(nodeObj, transform.position, Quaternion.identity, pathHolder.transform);
             nodeObjects.Add(newNode);
-        }
 
-        DisplayPaths();
+            DisplayPath();
+            DisplayMoves();
+        }
     }
-    private void DisplayPaths()
+    private void DisplayPath()
+    {
+        for (int i = 0; i < nodeObjects.Count; i++)
+        {
+            LineRenderer renderer = nodeObjects[i].GetComponent<LineRenderer>();
+            if (i == 0)
+            {
+                Vector3 playerpos = GameManager.instance.playerRef.transform.position;
+                renderer.SetPosition(0, playerpos);
+                renderer.SetPosition(1, nodeObjects[i].transform.position);
+            }
+
+            else
+            {
+                renderer.SetPosition(0, nodeObjects[i - 1].transform.position);
+                renderer.SetPosition(1, nodeObjects[i].transform.position);
+            }
+        }
+    }
+    private void DisplayMoves()
     {
         text.text = "Moves Placed: " + nodeObjects.Count + " Max Moves: " + maxMovementAmount;
     }
     private void RemoveNode() {
         if (nodeObjects.Count == 0) return;
-
         Destroy(nodeObjects.Last());
         nodeObjects.Remove(nodeObjects.Last());
     }
