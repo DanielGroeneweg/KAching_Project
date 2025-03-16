@@ -75,8 +75,13 @@ public class Player : MonoBehaviour
 
         LevelManager.instance.ReachedEnd();
         PathCreator.instance.ResetPath();
+        transform.localEulerAngles = Vector3.zero;
         if (!hit) spriteRenderer.sprite = standing;
-        else spriteRenderer.sprite = dead;
+        else
+        {
+            spriteRenderer.sprite = dead;
+            transform.localScale = new Vector3(0.4f, 0.4f, 1);
+        }
     }
 
     private IEnumerator MoveToNodePosition(Vector2 target)
@@ -98,6 +103,12 @@ public class Player : MonoBehaviour
         {
             transform.position = Vector2.MoveTowards(transform.position, target, Time.deltaTime * speed);
             yield return null;
+            if (hit) Die();
+            if (died)
+            {
+                transform.localEulerAngles = Vector3.zero;
+                StopAllCoroutines();
+            }
         }
     }
     public static float Angle(Vector2 v)
@@ -105,9 +116,11 @@ public class Player : MonoBehaviour
         return (Mathf.Atan2(v.y, v.x) / Mathf.PI) * 180;
     }
     private void Die() {
+        died = true;
         PathCreator.instance.ResetPath();
         LevelManager.instance.ReachedEnd();
         spriteRenderer.sprite = dead;
+        transform.localScale = new Vector3(0.4f, 0.4f, 1);
     }
     private void CheckCollision()
     {

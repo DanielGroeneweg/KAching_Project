@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1
   hit: 0
+  grave: {fileID: 1662103169861951829, guid: d04a4c71a7ec10c4f88d8e2beb0ba939, type: 3}
   animator: {fileID: 3068589152553363163}
   lookDirection: 0
 --- !u!95 &3068589152553363163

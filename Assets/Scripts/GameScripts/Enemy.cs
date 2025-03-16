@@ -5,6 +5,7 @@ public class Enemy : MonoBehaviour
     public int health = 1;
     protected Transform player;
     public bool hit;
+    public SpriteRenderer grave;
 
     private void Start()
     {
@@ -17,6 +18,7 @@ public class Enemy : MonoBehaviour
         if (health <= 0 )
         {
             DestroyEnemy();
+            SpawnGrave();
         }
     }
 
@@ -26,6 +28,10 @@ public class Enemy : MonoBehaviour
 
     public void DestroyEnemy()
     {
-        Destroy(gameObject, 0.2f);
+        Destroy(gameObject, 0.1f);
+    }
+    private void SpawnGrave()
+    {
+        GameObject.Instantiate(grave, transform.position, Quaternion.identity);
     }
 }
