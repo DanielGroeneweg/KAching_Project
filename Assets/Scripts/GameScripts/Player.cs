@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite running;
+    [SerializeField] private Sprite dead;
 
     [HideInInspector] public bool hit;
 
@@ -18,14 +19,13 @@ public class Player : MonoBehaviour
         GameManager.instance.playerRef = this;
     }
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Space) && !hit) {
+            spriteRenderer.sprite = running;
             StartCoroutine(ExecutePath());
         }
     }
     private void CheckBowEnemies()
     {
-        spriteRenderer.sprite = running;
-
         foreach (Enemy enemy in GameManager.instance.levelManager.enemies)
         {
             if (enemy.gameObject.TryGetComponent<BowEnemy>(out BowEnemy bowEnemy))
