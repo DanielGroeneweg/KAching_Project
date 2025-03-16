@@ -27,6 +27,7 @@ public class LevelManager : MonoBehaviour
     {
         if (enemies.Count > 0)
         {
+            GameManager.instance.playerRef.hit = true;
             PlayerDied?.Invoke();
         }
 

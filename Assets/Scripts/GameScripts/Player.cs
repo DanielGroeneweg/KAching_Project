@@ -7,10 +7,12 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Sprite standing;
     [SerializeField] private Sprite running;
     [SerializeField] private Sprite dead;
 
     [HideInInspector] public bool hit;
+    private bool died;
 
     private List<Enemy> detectedEnemies = new List<Enemy>();
     private Path path;
@@ -23,6 +25,7 @@ public class Player : MonoBehaviour
             spriteRenderer.sprite = running;
             StartCoroutine(ExecutePath());
         }
+        CheckCollision();
     }
     private void CheckBowEnemies()
     {
@@ -63,20 +66,6 @@ public class Player : MonoBehaviour
 
             Node node = path.nodes[i];
 
-            Vector2 pos = transform.position;
-
-            RaycastHit2D[] hitList = Physics2D.RaycastAll(pos, node.Position - pos, Vector2.Distance(node.Position, pos));
-            foreach (RaycastHit2D hitObject in hitList)
-            {
-                foreach(Enemy enemy in GameManager.instance.levelManager.enemies)
-                {
-                    if (hitObject.collider.gameObject == enemy.gameObject)
-                    {
-                        enemy.Detected();
-                        detectedEnemies.Add(enemy);
-                    }
-                }
-            }
             SoundPlayer.instance.PlayDashound();
             PlayerPrefs.SetInt("Moves", PlayerPrefs.GetInt("Moves") + 1);
             yield return StartCoroutine(MoveToNodePosition(node.Position));
@@ -84,12 +73,23 @@ public class Player : MonoBehaviour
             else ExecuteEnemies();
         }
 
-        
         LevelManager.instance.ReachedEnd();
         PathCreator.instance.ResetPath();
+        if (!hit) spriteRenderer.sprite = standing;
+        else spriteRenderer.sprite = dead;
     }
 
     private IEnumerator MoveToNodePosition(Vector2 target) {
+
+        // Look at node
+        if (target.x > transform.position.x) transform.localScale = new Vector3(-1, 1, 1);
+        else transform.localScale = Vector3.one;
+
+        transform.localEulerAngles = Vector3.zero;
+        float angle = Vector2.Angle(transform.position, target);
+        Debug.Log(angle);
+        transform.localEulerAngles += new Vector3(0, 0, angle);
+
         while ((Vector2)transform.position != target)
         {
             transform.position = Vector2.MoveTowards(transform.position, target, Time.deltaTime * speed);
@@ -117,13 +117,18 @@ public class Player : MonoBehaviour
     private void Die() {
         PathCreator.instance.ResetPath();
         LevelManager.instance.ReachedEnd();
-        Destroy(gameObject);
+        spriteRenderer.sprite = dead;
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void CheckCollision()
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        RaycastHit2D rayhit = Physics2D.Raycast(transform.position, Vector2.zero);
+        if (rayhit && rayhit.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             SoundPlayer.instance.PlayHitSound();
+            Enemy enemy = rayhit.collider.gameObject.GetComponent<Enemy>();
+            enemy.Detected();
+            detectedEnemies.Add(enemy);
+            if (hit) Die();
         }
     }
 }
