@@ -30,7 +30,7 @@ public class PathCreator : MonoBehaviour
         mouseWorldPosition.z = 0f;
         transform.position = mouseWorldPosition;
 
-        if (Input.GetMouseButtonDown(1)) {
+        if (Input.GetMouseButtonDown(1) && !GameManager.instance.playerRef.moving) {
             RemoveNode();
             DisplayPath();
             DisplayMoves();
@@ -38,7 +38,7 @@ public class PathCreator : MonoBehaviour
 
         if (nodeObjects.Count >= maxMovementAmount) return;
 
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && !GameManager.instance.playerRef.moving) {
             if (!isValidPos) return;
 
             RaycastHit2D hit = Physics2D.Raycast(mouseWorldPosition, Vector2.zero);

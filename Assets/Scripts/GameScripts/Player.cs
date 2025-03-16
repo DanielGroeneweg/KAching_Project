@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
 
     [HideInInspector] public bool hit;
     private bool died;
+    public bool moving;
 
     private List<Enemy> detectedEnemies = new List<Enemy>();
     private Path path;
@@ -21,7 +22,7 @@ public class Player : MonoBehaviour
         GameManager.instance.playerRef = this;
     }
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space) && !hit) {
+        if (Input.GetKeyDown(KeyCode.Space) && !hit && !moving) {
             spriteRenderer.sprite = running;
             StartCoroutine(ExecutePath());
         }
@@ -59,7 +60,7 @@ public class Player : MonoBehaviour
         if (path.nodes.Count == 0) {
             yield break;
         }
-
+        moving = true;
         for (int i = 0; i < path.nodes.Count; i++) {
             CheckBowEnemies();
             UpdatePipeEnemies();
@@ -70,7 +71,6 @@ public class Player : MonoBehaviour
             PlayerPrefs.SetInt("Moves", PlayerPrefs.GetInt("Moves") + 1);
             yield return StartCoroutine(MoveToNodePosition(node.Position));
             if (hit) Die();
-            else ExecuteEnemies();
         }
 
         LevelManager.instance.ReachedEnd();
@@ -79,15 +79,20 @@ public class Player : MonoBehaviour
         else spriteRenderer.sprite = dead;
     }
 
-    private IEnumerator MoveToNodePosition(Vector2 target) {
+    private IEnumerator MoveToNodePosition(Vector2 target)
+    {
 
         // Look at node
         if (target.x > transform.position.x) spriteRenderer.flipX = true;
         else spriteRenderer.flipX = false;
 
+        // Rotate to node
         transform.localEulerAngles = Vector3.zero;
-        float angle = Vector2.Angle(transform.position, target);
-        transform.localEulerAngles = new Vector3(0, 0, angle);
+        float angle = Angle((target - (Vector2)transform.position).normalized);
+        Debug.Log(angle);
+
+        if (!spriteRenderer.flipX) transform.localEulerAngles = new Vector3(0, 0, angle + 180);
+        else transform.localEulerAngles = new Vector3(0, 0, angle);
 
         while ((Vector2)transform.position != target)
         {
@@ -95,25 +100,10 @@ public class Player : MonoBehaviour
             yield return null;
         }
     }
-
-    private void ExecuteEnemies()
+    public static float Angle(Vector2 v)
     {
-        Debug.Log("Executing " + detectedEnemies.Count);
-        for (int i = detectedEnemies.Count - 1; i >= 0; i--)
-        {
-            Enemy e = detectedEnemies[i];
-            if (e.hit)
-            {
-                e.HitByPlayer();
-                if (LevelManager.instance.enemies.Contains(e))
-                {
-                    LevelManager.instance.enemies.Remove(e);
-                    detectedEnemies.Remove(e);
-                }
-            }
-        }
+        return (Mathf.Atan2(v.y, v.x) / Mathf.PI) * 180;
     }
-
     private void Die() {
         PathCreator.instance.ResetPath();
         LevelManager.instance.ReachedEnd();
@@ -130,6 +120,11 @@ public class Player : MonoBehaviour
                 SoundPlayer.instance.PlayHitSound();
                 enemy.Detected();
                 detectedEnemies.Add(enemy);
+                if (enemy.hit)
+                {
+                    enemy.HitByPlayer();
+                    if (enemy.health <= 0) LevelManager.instance.enemies.Remove(enemy);
+                }
                 if (hit) Die();
             }
             

@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] protected int health = 1;
+    public int health = 1;
     protected Transform player;
     public bool hit;
 
@@ -26,6 +26,6 @@ public class Enemy : MonoBehaviour
 
     public void DestroyEnemy()
     {
-        Destroy(gameObject);
+        Destroy(gameObject, 0.2f);
     }
 }
