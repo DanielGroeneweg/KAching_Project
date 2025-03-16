@@ -82,13 +82,12 @@ public class Player : MonoBehaviour
     private IEnumerator MoveToNodePosition(Vector2 target) {
 
         // Look at node
-        if (target.x > transform.position.x) transform.localScale = new Vector3(-1, 1, 1);
-        else transform.localScale = Vector3.one;
+        if (target.x > transform.position.x) spriteRenderer.flipX = true;
+        else spriteRenderer.flipX = false;
 
         transform.localEulerAngles = Vector3.zero;
         float angle = Vector2.Angle(transform.position, target);
-        Debug.Log(angle);
-        transform.localEulerAngles += new Vector3(0, 0, angle);
+        transform.localEulerAngles = new Vector3(0, 0, angle);
 
         while ((Vector2)transform.position != target)
         {

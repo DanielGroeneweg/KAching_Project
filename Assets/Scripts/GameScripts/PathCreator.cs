@@ -70,17 +70,22 @@ public class PathCreator : MonoBehaviour
         for (int i = 0; i < nodeObjects.Count; i++)
         {
             LineRenderer renderer = nodeObjects[i].GetComponent<LineRenderer>();
+            Vector3 pos = nodeObjects[i].transform.position;
+            pos.z = -1;
             if (i == 0)
             {
                 Vector3 playerpos = GameManager.instance.playerRef.transform.position;
+                playerpos.z = -1;
                 renderer.SetPosition(0, playerpos);
-                renderer.SetPosition(1, nodeObjects[i].transform.position);
+                renderer.SetPosition(1, pos);
             }
 
             else
             {
-                renderer.SetPosition(0, nodeObjects[i - 1].transform.position);
-                renderer.SetPosition(1, nodeObjects[i].transform.position);
+                Vector3 prevPos = nodeObjects[i - 1].transform.position;
+                prevPos.z = -1;
+                renderer.SetPosition(0, prevPos);
+                renderer.SetPosition(1, pos);
             }
         }
     }
