@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PipeEnemy : Enemy
 {
+    public Animator animator;
     public enum Directions { Left, Right, Up, Down }
     public Directions lookDirection;
 
@@ -27,7 +28,7 @@ public class PipeEnemy : Enemy
         if (playerDirectionToEnemy == lookDirection)
         {
             player.GetComponent<Player>().hit = true;
-            Debug.Log("BONK");
+            animator.SetTrigger("Hit");
         }
         else hit = true;
     }

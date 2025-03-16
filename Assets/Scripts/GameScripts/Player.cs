@@ -98,6 +98,7 @@ public class Player : MonoBehaviour
 
     private void ExecuteEnemies()
     {
+        Debug.Log("Executing " + detectedEnemies.Count);
         for (int i = detectedEnemies.Count - 1; i >= 0; i--)
         {
             Enemy e = detectedEnemies[i];
@@ -123,11 +124,15 @@ public class Player : MonoBehaviour
         RaycastHit2D rayhit = Physics2D.Raycast(transform.position, Vector2.zero);
         if (rayhit && rayhit.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            SoundPlayer.instance.PlayHitSound();
             Enemy enemy = rayhit.collider.gameObject.GetComponent<Enemy>();
-            enemy.Detected();
-            detectedEnemies.Add(enemy);
-            if (hit) Die();
+            if (!detectedEnemies.Contains(enemy))
+            {
+                SoundPlayer.instance.PlayHitSound();
+                enemy.Detected();
+                detectedEnemies.Add(enemy);
+                if (hit) Die();
+            }
+            
         }
     }
 }
