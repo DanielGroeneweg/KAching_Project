@@ -94,7 +94,6 @@ public class Player : MonoBehaviour
         // Rotate to node
         transform.localEulerAngles = Vector3.zero;
         float angle = Angle((target - (Vector2)transform.position).normalized);
-        Debug.Log(angle);
 
         if (!spriteRenderer.flipX) transform.localEulerAngles = new Vector3(0, 0, angle + 180);
         else transform.localEulerAngles = new Vector3(0, 0, angle);
