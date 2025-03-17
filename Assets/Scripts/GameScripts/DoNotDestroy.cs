@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DoNotDestroy : MonoBehaviour
 {
-    private DoNotDestroy instance;
+    public static DoNotDestroy instance;
     private void Awake()
     {
         if (instance == null)
